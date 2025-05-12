@@ -28,3 +28,23 @@ npm i -D typescript @type/express @type/node nodmon
   "include": ["src/**/*"] 
 }
 ```
+
+## create nodemon.json
+```json
+{
+  "watch": ["src"],
+  "ext": "ts",
+  "ignore": ["dist"],
+  "exec": "node --env-file .env --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"ts-node/esm\", pathToFileURL(\"./\"));' src/index.ts"
+}
+```
+
+## config package.json
+```json
+  "scripts": {
+    "dev": "nodemon --stage local",
+    "start" : "node --loader ts-node/esm src/index.ts",
+    "build": "tsc" 
+  },
+  "type": "module",
+```
